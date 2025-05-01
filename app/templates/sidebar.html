@@ -1,0 +1,13 @@
+<aside class="sidebar">
+    <nav class="sidebar-nav">
+        <h5>Navigation</h5>
+        <a href="{{ url_for('main.dashboard') }}" class="sidebar-link">Tableau de bord</a>
+        <a href="{{ url_for('patients.list_patients') }}" class="sidebar-link">Patients</a>
+        <a href="{{ url_for('professionals.list_professionals') }}" class="sidebar-link">Professionnels</a>
+        {% if session['user_type'] == 'professionnel' %}
+            <a href="{{ url_for('records.list_records') }}" class="sidebar-link">Dossiers Médicaux</a>
+        {% endif %}
+        <hr>
+        <a href="{{ url_for('main.settings') }}" class="sidebar-link">Paramètres</a>
+    </nav>
+</aside>

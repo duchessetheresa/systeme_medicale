@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Tableau de bord{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Tableau de bord</h2>
+    
+    <div class="card-grid">
+        <div class="card">
+            <h3>Patients</h3>
+            <p class="stat">{{ stats.patients }}</p>
+        </div>
+        <div class="card">
+            <h3>Professionnels</h3>
+            <p class="stat">{{ stats.professionals }}</p>
+        </div>
+        {% if session['user_type'] == 'professionnel' %}
+            <div class="card">
+                <h3>Dossiers</h3>
+                <p class="stat">{{ stats.records }}</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h3>Activité récente</h3>
+        <p>Aucune activité récente pour le moment.</p>
+    </div>
+</div>
+{% endblock %}

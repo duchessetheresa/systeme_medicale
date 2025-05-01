@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Dossier Médical{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h2>Dossier Médical</h2>
+        <div>
+            <a href="{{ url_for('records.create_compte_rendu', dossier_id=dossier.id) }}" class="btn btn-primary">Ajouter un compte rendu</a>
+            <a href="{{ url_for('patients.patient_detail', patient_id=dossier.patient_id) }}" class="btn btn-outline">Retour au patient</a>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="tabs">
+            <a class="tab active" onclick="showTab('info')">Informations</a>
+            <a class="tab" onclick="showTab('comptes-rendus')">Comptes Rendus</a>
+        </div>
+        <div id="info" class="tab-content active">
+            <div class="row">
+                <div class="col">
+                    <h3>Allergies</h3>
+                    <p>{{ dossier.allergies or 'Aucune allergie connue' }}</p>
+                </div>
+                <div class="col">
+                    <h3>Historique des Soins</h3>
+                    <p>{{ dossier.historique_soins or 'Aucun historique' }}</p>
+                </div>
+            </div>
+        </div>
+        <div id="comptes-rendus" class="tab-content">
+            {% if comptes_rendus %}
+                <ul class="record-list">
+                    {% for cr in comptes_rendus %}
+                        <li>
+                            <h4>{{ cr.date | datetimeformat('%Y-%m-%d') }}</h4>
+                            <p>{{ cr.contenu }}</p>
+                            {% if cr.traitements %}
+                                <h5>Traitements:</h5>
+                                <ul>
+                                    {% for t in cr.traitements %}
+                                        <li>{{ t.medicament }} - {{ t.posologie }} ({{ t.duree }})</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            <span class="badge">Auteur: {{ cr.auteur_id }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="info">Aucun compte rendu disponible</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script>
+function showTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+}
+</script>
+{% endblock %}

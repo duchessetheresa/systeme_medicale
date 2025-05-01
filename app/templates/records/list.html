@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Dossiers Médicaux{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Dossiers Médicaux</h2>
+    <div class="card">
+        <p class="info">Sélectionnez un patient pour accéder à son dossier médical. 
+        Vous pouvez <a href="{{ url_for('patients.list_patients') }}">parcourir la liste des patients</a>.</p>
+    </div>
+</div>
+{% endblock %}

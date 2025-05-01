@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Détails du Patient{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h2>Détails du Patient</h2>
+        <div>
+            <a href="{{ url_for('patients.list_patients') }}" class="btn btn-outline">Retour</a>
+            <a href="{{ url_for('patients.edit_patient', patient_id=patient.id) }}" class="btn btn-primary">Modifier</a>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="tabs">
+            <a class="tab active" onclick="showTab('info')">Informations</a>
+            <a class="tab" onclick="showTab('records')">Comptes Rendus</a>
+        </div>
+        <div id="info" class="tab-content active">
+            <div class="row">
+                <div class="col">
+                    <h3>Identité</h3>
+                    <ul>
+                        <li><strong>Nom:</strong> {{ patient.nom }}</li>
+                        <li><strong>Prénom:</strong> {{ patient.prenom }}</li>
+                        <li><strong>Date de naissance:</strong> {{ patient.date_naissance | datetimeformat('%Y-%m-%d') }}</li>
+                        <li><strong>Adresse:</strong> {{ patient.adresse or 'Non renseignée' }}</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h3>Dossier Médical</h3>
+                    {% if dossier %}
+                        <ul>
+                            <li><strong>Allergies:</strong> {{ dossier.allergies or 'Aucune' }}</li>
+                            <li><strong>Historique:</strong> {{ dossier.historique_soins or 'Aucun historique' }}</li>
+                        </ul>
+                    {% else %}
+                        <p class="info">Aucun dossier médical trouvé</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div id="records" class="tab-content">
+            {% if dossier and dossier.comptes_rendus %}
+                <ul class="record-list">
+                    {% for cr in dossier.comptes_rendus %}
+                        <li>
+                            <h4>{{ cr.date | datetimeformat('%Y-%m-%d') }}</h4>
+                            <p>{{ cr.contenu }}</p>
+                            {% if cr.traitements %}
+                                <h5>Traitements:</h5>
+                                <ul>
+                                    {% for t in cr.traitements %}
+                                        <li>{{ t.medicament }} - {{ t.posologie }} ({{ t.duree }})</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            <span class="badge">Auteur: {{ cr.auteur_id }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="info">Aucun compte rendu disponible</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script>
+function showTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+}
+</script>
+{% endblock %}

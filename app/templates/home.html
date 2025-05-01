@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Accueil{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="hero">
+        <h1>Bienvenue sur le Système Médical</h1>
+        <p>Gestion sécurisée et interopérable des dossiers médicaux</p>
+    </div>
+
+    <div class="card-grid">
+        <div class="card">
+            <h3>Patients</h3>
+            <p>Gestion des dossiers patients, historiques médicaux et prescriptions.</p>
+            <a href="{{ url_for('patients.list_patients') }}" class="btn btn-primary">Accéder aux patients</a>
+        </div>
+        <div class="card">
+            <h3>Professionnels</h3>
+            <p>Liste des professionnels de santé et leurs spécialités.</p>
+            <a href="{{ url_for('professionals.list_professionals') }}" class="btn btn-primary">Voir les professionnels</a>
+        </div>
+    </div>
+
+    {% if not session['logged_in'] %}
+        <div class="auth-links">
+            <h4>Connectez-vous pour accéder à toutes les fonctionnalités</h4>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Connexion</a>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-outline">Inscription</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+<nav class="navbar">
+    <div class="container">
+        <a href="{{ url_for('main.home') }}" class="navbar-brand">Système Médical</a>
+        <button class="navbar-toggle" onclick="toggleMenu()">☰</button>
+        <ul class="navbar-menu" id="navbar-menu">
+            {% if session['logged_in'] %}
+                <li><a href="{{ url_for('patients.list_patients') }}">Patients</a></li>
+                <li><a href="{{ url_for('professionals.list_professionals') }}">Professionnels</a></li>
+                <li>
+                    <form action="{{ url_for('auth.logout') }}" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-outline">Déconnexion</button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Connexion</a></li>
+                <li><a href="{{ url_for('auth.register') }}">Inscription</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<script>
+function toggleMenu() {
+    const menu = document.getElementById('navbar-menu');
+    menu.classList.toggle('active');
+}
+</script>

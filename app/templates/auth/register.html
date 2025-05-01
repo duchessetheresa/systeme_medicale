@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Inscription{% endblock %}
+{% block content %}
+<div class="auth-container">
+    <div class="card auth-card">
+        <h2>Inscription</h2>
+        <form method="POST" action="{{ url_for('auth.register') }}" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="user_type">Type d'utilisateur</label>
+                <select id="user_type" name="user_type">
+                    <option value="patient">Patient</option>
+                    <option value="professionnel">Professionnel de santé</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Reconnaissance faciale</label>
+                <div id="face-capture">
+                    <div id="webcam-container" style="display: none;">
+                        <video id="webcam" width="100%" autoplay></video>
+                        <div class="face-capture-buttons">
+                            <button type="button" class="btn btn-primary" onclick="captureImage()">Capturer</button>
+                            <button type="button" class="btn btn-danger" onclick="stopCamera()">Arrêter</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="startCamera()" id="start-camera">Activer la caméra</button>
+                    <div id="captured-image" style="display: none;">
+                        <h4>Image capturée:</h4>
+                        <img id="preview" alt="Captured face" style="max-width: 100%;">
+                    </div>
+                    <input type="file" name="face_image" id="face_image" accept="image/jpeg" style="display: none;">
+                    <div id="face-error" class="error" style="display: none;"></div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="submit-btn" disabled>S'inscrire</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+    <script src="{{ url_for('static', filename='js/face-capture.js') }}"></script>
+{% endblock %}

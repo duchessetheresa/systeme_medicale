@@ -1,0 +1,6 @@
+# medical_system/.gitignore
+.env
+venv/
+migrations/
+*.pyc
+__pycache__/

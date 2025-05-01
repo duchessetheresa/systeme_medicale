@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Détails du Professionnel{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h2>Détails du Professionnel</h2>
+        <a href="{{ url_for('professionals.list_professionals') }}" class="btn btn-outline">Retour</a>
+    </div>
+    
+    <div class="card">
+        <ul>
+            <li><strong>Nom:</strong> {{ professional.nom }}</li>
+            <li><strong>Spécialité:</strong> {{ professional.specialite }}</li>
+            <li><strong>Établissement:</strong> {{ professional.etablissement.nom if professional.etablissement else 'Non spécifié' }}</li>
+            <li><strong>Adresse de l'établissement:</strong> {{ professional.etablissement.adresse if professional.etablissement else 'Non spécifiée' }}</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
